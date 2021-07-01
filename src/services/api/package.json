@@ -1,0 +1,23 @@
+{
+  "name": "d_carlo_api",
+  "version": "1.0.0",
+  "description": "This is a little project for apply crud services in a pizza business and practice with express, swagger and mysql",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " nodemon index.js"
+  },
+  "keywords": [
+    "pizza"
+  ],
+  "author": "Nelson F. Escudero",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.9",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
+  }
+}
