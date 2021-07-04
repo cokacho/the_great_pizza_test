@@ -9,6 +9,7 @@ router.get('/list', ingredientController.listObj);
  * @swagger
  * /ingredient/list:
  *   get:
+ *      summary: GetToppings() get all ingredients (toppings), set parameter topping=1 to returns toppings only
  *      description: Used to get all ingredients
  *      tags:
  *          - ingredient
@@ -24,13 +25,18 @@ router.get('/list', ingredientController.listObj);
  *            description: Limit of pages per page
  *            required: false
  *          - in: query
- *            name: sort
+ *            name: query
  *            type: string
- *            description: Sort data
+ *            description: Search data using a word
+ *            required: false
+ *          - in: query
+ *            name: topping
+ *            type: integer
+ *            description: 1
  *            required: false
  *      responses:
  *          '200':
- *              description: Resource added successfully
+ *              description: Returned a list successfully
  *          '500':
  *              description: Internal server error
  *          '400':
@@ -41,13 +47,14 @@ router.post("/add", ingredientController.addObj);
  * @swagger
  * /ingredient/add:
  *   post:
+ *      summary: AddTopping() Create new topping use the flag topping in true (1) for define topping
  *      description: Used to add ingredient
  *      tags:
  *          - ingredient
  *      parameters:
  *          - in: body
  *            name: ingredient
- *            description: Post data
+ *            description: Ingredient data
  *            schema:
  *              type: object
  *              required:
@@ -58,7 +65,7 @@ router.post("/add", ingredientController.addObj);
  *                      type: string
  *                      minLength: 1
  *                      maxLength: 100
- *                      example: Name of pizza
+ *                      example: Name of ingredient
  *                      required: true
  *                  description:
  *                      type: string
@@ -78,19 +85,25 @@ router.post("/add", ingredientController.addObj);
  *              description: Bad request
  */
 
-router.put("/update", ingredientController.updateObj);
+router.put("/update/:id", ingredientController.updateObj);
 /**
  * @swagger
- * /ingredient/update:
+ * /ingredient/update/{id}:
  *   put:
  *      name: updateIngredient
  *      description: Update a ingredient
  *      tags:
  *          - ingredient
  *      parameters:
+ *          - in: path
+ *            name: id
+ *            description: Id ingredient
+ *            required: true
+ *            schema:
+ *              type: integer
  *          - in: body
  *            name: ingredient
- *            description: Post data
+ *            description: Ingredient data
  *            schema:
  *              type: object
  *              required:
@@ -106,7 +119,7 @@ router.put("/update", ingredientController.updateObj);
  *                      type: string
  *                      minLength: 1
  *                      maxLength: 100
- *                      example: Name of pizza
+ *                      example: Name of ingredient
  *                      required: true
  *                  description:
  *                      type: string
@@ -139,7 +152,7 @@ router.get("/:id", ingredientController.getObj);
  *      parameters:
  *          - in: path
  *            name: id
- *            description: Returns a ingredient using the ingredient id
+ *            description: Id ingredient
  *            required: true
  *            schema:
  *              type: integer
@@ -160,19 +173,19 @@ router.delete("/:id", ingredientController.deleteObj);
  * @swagger
  * /ingredient/{id}:
  *   delete:
- *      description: Delete one ingredient (Soft delete proach=
+ *      description: Delete one ingredient (Soft delete approach)
  *      tags:
  *          - ingredient
  *      parameters:
  *          - in: path
  *            name: id
- *            description: Delete a ingredient using the ingredient id
+ *            description: Id ingredient
  *            required: true
  *            schema:
  *              type: integer
  *
  *      responses:
- *          '200':
+ *          '204':
  *              description: Element delete successfully
  *          '500':
  *              description: Internal server error

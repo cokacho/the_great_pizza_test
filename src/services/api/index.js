@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const environment = require("./config/environment");
 const pizzaRoutes = require("./routes/pizza.routes");
+const ingredientRoutes = require("./routes/ingredient.route");
 const logger = require('./common/logger');
 const cors = require('cors');
 
@@ -17,6 +18,8 @@ const middlewarte = (req, res, next) => {
 }
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+
+
 
 // Swagger configuration
 const swaggerOption = {
@@ -33,7 +36,7 @@ if (environment.NODE_ENV === 'development') {
 
 // Configuration routes
 app.use("/pizza", middlewarte, pizzaRoutes);
-
+app.use("/ingredient", middlewarte, ingredientRoutes);
 
 app.listen(environment.port, () => {
     console.log(`Server running using port: ${environment.port}... `);

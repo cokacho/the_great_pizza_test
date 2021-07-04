@@ -5,7 +5,8 @@ exports.listObj = (req, res, next) => {
     const data = {
         page: req.query.page,
         limit: req.query.limit,
-        sort: req.query.sort
+        query: req.query.query,
+        topping: req.query.topping
     };
     ingredientService.listObj(data, (error, results) => {
        if (error) {
@@ -68,7 +69,7 @@ exports.getObj = (req, res, next) => {
         }
         if (!results) {
             return res.status(404).send({
-                success: 1,
+                success: 0,
                 data: results,
                 message: null
             });
@@ -83,11 +84,18 @@ exports.getObj = (req, res, next) => {
 
 exports.deleteObj = (req, res, next) => {
     const data = {
-        postId: req.query.postId,
+        id: req.params.id,
     };
     ingredientService.deleteObj(data, (error, results) => {
         if (error) {
             return errorResponse(res, data, error, 500)
+        }
+        if (!results) {
+            return res.status(404).send({
+                success: 0,
+                data: results,
+                message: null
+            });
         }
         return res.status(204).send({
             success: 1,

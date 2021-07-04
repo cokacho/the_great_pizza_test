@@ -3,3 +3,4 @@ db.config.js
 package-lock.json
 config/db.config.js
 config/environment.js
+./.env

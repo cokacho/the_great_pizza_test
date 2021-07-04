@@ -1,81 +1,98 @@
-const db = require("../config/db.config");
+const models = require('../models');
+const db = require("../models");
+const Op = db.Op;
+const Ingredient = models.ingredient
+const environment = require("../config/environment")
 
 exports.listObj = (data, callback) => {
-    db.query(
-        `SELECT i.id, i.name, i.description, i.topping, i.status 
-        FROM ingredient i where deleted_at is NULL`,
-        [],
-        (error, results, fields) => {
-            if (error) {
-                return callback(error);
-            }
+    let limit = environment.list_limit_per_page;
+    let page = 1;
 
-            return callback(null, results);
-        }
-    );
+    if (data.limit && data.limit > 0) {
+        limit = +data.limit;
+    }
+    if (data.page && data.page > 0) {
+        page = +data.page;
+    }
+
+    const offset = (page - 1) * limit;
+
+    const query = data.query;
+    let condition = { deleted_at: { [Op.is]: null}};
+    if (query) {
+        condition.name = { [Op.like]: `%${query}%` };
+    }
+
+    if (data.topping === '1') {
+        condition.topping = { [Op.is]: true }
+    }
+    Ingredient.findAll({
+        limit: limit,
+        offset: offset,
+        where: condition,
+        attributes: { exclude: ['created_at', 'deleted_at'] }
+    })
+        .then(data => {
+            return callback(null, {
+                list: data,
+                page
+            });
+        })
+        .catch(error => {
+            return callback(error);
+        });
 };
 
 exports.addObj = (data, callback) => {
-    db.query(
-        `INSERT INTO ingredient (name, description, topping, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?)`,
-        [data.name, data.description, data.topping, new Date(), new Date()],
-        (error, results, fields) => {
-            if (error) {
-                return callback(error);
-            }
-            return callback(null, results);
-        }
-    );
+    Ingredient.create(data)
+        .then(data => {
+            return callback(null, data);
+        })
+        .catch(error => {
+            return callback(error);
+        });
 };
 
 exports.updateObj = (data, callback) => {
-    db.query(
-        `UPDATE ingredient set name = ?, description = ?, topping = ?,
-         status = ?, updated_at = ? WHERE (id = ?)`,
-        [data.name, data.description, data.status, new Date(), data.id],
-        (error, results, fields) => {
-            if (error) {
-                return callback(error);
-            }
-
-            return callback(null, results);
+    Ingredient.update(data, {
+        where: { id: data.id }
+    })
+    .then(num => {
+        if (num instanceof Array && num?.pop() === 1) {
+            return callback(null, data);
+        } else {
+            return callback(null, null);
         }
-    );
+    })
+    .catch(error => {
+        return callback(error);
+    });
 };
 
 exports.getObj = (data, callback) => {
-    db.query(
-        `SELECT i.id, i.name, i.description, i.topping, i.status 
-        FROM ingredient i where deleted_at is NULL and id = ?`,
-        [data.id],
-        (error, results, fields) => {
-            console.log(error)
-            if (error) {
-                return callback(error);
-            }
-            if (results.length === 0) {
-                return callback('Not Found');
-            }
-
-            return callback(null, results);
-        }
-    );
+    Ingredient.findByPk(data.id)
+    .then(data => {
+        return callback(null, data);
+    })
+    .catch(error => {
+        return callback(error());
+    });
 };
 
 exports.deleteObj = (data, callback) => {
-    `UPDATE ingredient set deleted_at = ? WHERE (id = ?)`,
-        [new Date(), data.id],
-        (error, results, fields) => {
-            console.log(error)
-            if (error) {
-                return callback(error);
-            }
-            if (results.length === 0) {
-                return callback('Not Found');
-            }
-
-            return callback(null, results);
+    Ingredient.update({'deleted_at': new Date()}, {
+        where: { id: data.id }
+    })
+    .then(num => {
+        if (num instanceof Array && num?.pop() === 1) {
+            return callback(null, data);
+        } else {
+            return callback(null, null);
         }
+    })
+    .catch(error => {
+        return callback(error);
+    });
 };
+
 
