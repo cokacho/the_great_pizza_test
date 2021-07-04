@@ -66,7 +66,7 @@ d_carlo-api      | Server running using port: 3000...
 
 In your mysql server (version 8.*) execute the sql dump file [d_carlo_db.sql](https://github.com/cokacho/the_great_pizza_test/blob/api_pizza_ingredents/src/services/mysql/dumps/d_carlo_db.sql)
 
-You need change the mysql vars in file [api.mysql.example.env](https://github.com/cokacho/the_great_pizza_test/blob/api_pizza_ingredents/environments/api.mysql.example.env) for your mysql configuration.
+You need change the mysql vars in file [api.mysql.example.env](https://github.com/cokacho/the_great_pizza_test/blob/api_pizza_ingredents/main/api.mysql.example.env) for your mysql configuration.
 
 In a terminal execute (over root project):
 ```cmd
@@ -87,3 +87,17 @@ Now the server running in http://localhost:3000
 The documentation is in http://localhost:3000/api-docs
 
 You can check this in respectives files in in the path "./src/services/api/routes/*.js"
+
+# Next Steps (release)
+- Create Authorization with jwt [project example](https://github.com/indraarianggi/nodejs-sequelize-mysql-api)
+- Add validations in services [folder](https://github.com/cokacho/the_great_pizza_test/tree/main/src/services/api/services)
+- Implement a strong middleware
+- Implement a UI
+- Define Swagger responses and data models 
+[swagger response](https://swagger.io/docs/specification/2-0/describing-responses/)  and 
+[swagger data models](https://swagger.io/docs/specification/data-models/)
+
+# Logging
+Two files in "src/services/api/logs:
+- error.log
+- combined.log
