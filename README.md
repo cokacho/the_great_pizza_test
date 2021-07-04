@@ -76,6 +76,7 @@ install.sh
 Running server:
 ```cmd
 cd src/services/api
+npm install
 npm start
 ```
 
