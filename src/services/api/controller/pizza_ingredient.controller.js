@@ -21,7 +21,7 @@ exports.listObj = (req, res, next) => {
 
 exports.addObj = (req, res, next) => {
     const data = {
-        pizza_id: +req.params.pizza_id,
+        pizza_id: req.params.pizza_id,
         ingredient_id: req.body.ingredient_id,
     };
 
@@ -39,7 +39,7 @@ exports.addObj = (req, res, next) => {
 
 exports.updateObj = (req, res, next) => {
     const data = {
-        id: +req.params.id,
+        id: req.params.id,
         ingredient_id: req.body.ingredient_id
     };
     pizzaIngredientService.updatePizzaIngredient(data, (error, results) => {
@@ -63,7 +63,7 @@ exports.updateObj = (req, res, next) => {
 
 exports.getObj = (req, res, next) => {
     const data = {
-        id: +req.params.pizza_id
+        id: req.params.pizza_id
     };
     pizzaIngredientService.getPizzaIngredient(data, (error, results) => {
         if (error) {
@@ -86,18 +86,11 @@ exports.getObj = (req, res, next) => {
 
 exports.deleteObj = (req, res, next) => {
     const data = {
-        id: +req.params.id,
+        id: req.params.id,
     };
     pizzaIngredientService.deletePizzaIngredient(data, (error, results) => {
         if (error) {
             return errorResponse(res, data, error, 500)
-        }
-        if (!results) {
-            return res.status(404).send({
-                success: 0,
-                data: results,
-                message: null
-            });
         }
         return res.status(204).send({
             success: 1,

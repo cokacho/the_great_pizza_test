@@ -57,7 +57,6 @@ exports.addPizzaIngredient = (data, callback) => {
 };
 
 exports.updatePizzaIngredient = (data, callback) => {
-    console.log(data)
     PizzaIngredient.update({
         ingredient_id: data.ingredient_id
     }, {
@@ -89,10 +88,11 @@ exports.getPizzaIngredient = (data, callback) => {
 };
 
 exports.deletePizzaIngredient = (data, callback) => {
-    Ingredient.destroy({
+    PizzaIngredient.destroy({
         where: { id: data.id }
     })
     .then(num => {
+        console.log(num)
         if (num instanceof Array && num?.pop() === 1) {
             return callback(null, data);
         } else {
