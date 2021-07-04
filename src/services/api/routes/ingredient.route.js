@@ -32,7 +32,7 @@ router.get('/list', ingredientController.listObj);
  *          - in: query
  *            name: topping
  *            type: integer
- *            description: 1
+ *            description: 1 (1 tells get only toppings, empty returns all ingredients)
  *            required: false
  *      responses:
  *          '200':

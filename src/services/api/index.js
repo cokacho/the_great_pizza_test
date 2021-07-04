@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const environment = require("./config/environment");
 const pizzaRoutes = require("./routes/pizza.routes");
 const ingredientRoutes = require("./routes/ingredient.route");
+const pizzaIngredient = require("./routes/pizza_ingredient.route");
 const logger = require('./common/logger');
 const cors = require('cors');
 
@@ -37,6 +38,7 @@ if (environment.NODE_ENV === 'development') {
 // Configuration routes
 app.use("/pizza", middlewarte, pizzaRoutes);
 app.use("/ingredient", middlewarte, ingredientRoutes);
+app.use("/pizza_ingredient", middlewarte, pizzaIngredient);
 
 app.listen(environment.port, () => {
     console.log(`Server running using port: ${environment.port}... `);
