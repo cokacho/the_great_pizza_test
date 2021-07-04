@@ -12,3 +12,4 @@ services/.idea/
 .idea/
 .idea/*
 src/services/mysql/data
+src/services/mysql/.env

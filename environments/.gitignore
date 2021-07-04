@@ -3,3 +3,4 @@ backend.env
 mysql.env
 api.db.config.js
 api.environment.js
+api.mysql.env

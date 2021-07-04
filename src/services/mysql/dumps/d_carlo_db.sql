@@ -32,11 +32,12 @@ DROP TABLE IF EXISTS `ingredient`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ingredient` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
-  `status` tinyint DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `topping` tinyint NOT NULL DEFAULT '1',
+  `status` tinyint NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -63,8 +64,8 @@ CREATE TABLE `pizza` (
   `name` varchar(100) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
   `status` tinyint NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -90,8 +91,8 @@ CREATE TABLE `pizza_ingredient` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pizza_id` int NOT NULL,
   `ingredient_id` int NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ingredient_id_idx` (`ingredient_id`),
@@ -109,10 +110,6 @@ LOCK TABLES `pizza_ingredient` WRITE;
 /*!40000 ALTER TABLE `pizza_ingredient` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pizza_ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'd_carlo_db'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -123,4 +120,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-30 23:47:47
+-- Dump completed on 2021-07-04 15:52:13

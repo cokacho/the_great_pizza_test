@@ -6,11 +6,11 @@ services:
         container_name: d_carlo-mysql
         hostname: d_carlo-mysql
         command: --default-authentication-plugin=mysql_native_password
-        # restart: always
+        # restart: always # Enable only in production
         cap_add:
         - SYS_NICE  # CAP_SYS_NICE
         ports: 
-        - "3306:3306"
+        - "3306:3306" # Remove this in production
         env_file: # Environment Variables list
         - src/services/mysql/.env
         volumes: # At /databases/mysql/dumps are the .sql files to dump
@@ -19,7 +19,19 @@ services:
         - ./src/services/mysql/data:/var/lib/mysql
         networks:
         - d_carlo-network
-    
+    d_carlo-api:
+        build: ./src/services/api
+        container_name: d_carlo-api
+        hostname: d_carlo-api
+        # restart: always # Enable only in production
+        volumes:
+        - ./src/services/api/logs:/code/d_carlo/logs # PROD
+        networks:
+        - d_carlo-network
+        ports:
+        - "3000:3000"
+        depends_on:
+        - d_carlo-mysql
 
 networks:
     d_carlo-network:   
